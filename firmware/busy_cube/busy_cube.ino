@@ -1,15 +1,24 @@
 #include <Adafruit_NeoPixel.h>
 
-const int BUTTON_PIN_0 = 0;    // the number of the pushbutton pin
+// Pins
+const int BUTTON_PIN_0 = 0;    // Pin for button 0. Has to be an interrupt pin 
+const int BUTTON_PIN_1 = 1;    // Pin for button 1. Has to be an interrupt pin
+const int BUTTON_PIN_2 = 2;    // Pin for button 2. Has to be an interrupt pin
+
 const int NEOPIXEL_PIN = 12; // neopixel pin
 
+int buttonRead = HIGH;           // the current reading from the input pin
+int buttonState;           // the current state of the button (after debouncing)
+int lastButtonState = HIGH;       // the previous statue of the button
+
+// the following variables are unsigned longs because the time, measured in
+// milliseconds, will quickly become a bigger number than can be stored in an int.
+unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
+unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
+
+// Neopixel configuration
 const int NEOPIXEL_BRIGHTNESS = 50;
 const int NEOPIXEL_COUNT = 3; 
-
-// button state
-bool oldState = HIGH;
-volatile int buttonState = 0;         // variable for reading the pushbutton status
-
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -22,11 +31,16 @@ volatile int buttonState = 0;         // variable for reading the pushbutton sta
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NEOPIXEL_COUNT, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
-  // initialize the pushbutton pin as an input:
+  Serial.begin(9600);
+  
+  // initialize the pushbutton pin as an input, and turning up the internal 
+  // pullup pin
   pinMode(BUTTON_PIN_0,  INPUT_PULLUP);
 
   // Attach an interrupt to the ISR vector
-  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_0), pin_ISR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_0), pin_ISR_0, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_1), pin_ISR_1, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_2), pin_ISR_2, CHANGE);
 
   // Init neopixels
   strip.begin();
@@ -34,13 +48,30 @@ void setup() {
 }
 
 void loop() {
-  // Nothing here!
+  // reading
+  buttonRead = digitalRead(BUTTON_PIN_0);
   
-}
+  // If the switch changed, due to noise or pressing:
+  if (buttonRead != lastButtonState) {
+    // reset the debouncing timer
+    lastDebounceTime = millis();
+  }
 
-void pin_ISR() {
-  buttonState = digitalRead(BUTTON_PIN_0);
-  
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    // whatever the reading is at, it's been there for longer than the debounce
+    // delay, so take it as the actual current state:
+
+    // if the button state has changed:
+    if (buttonRead != buttonState) {
+      buttonState = buttonRead;
+      if (buttonState) {
+        Serial.write("Released\n");
+      } else {
+        Serial.write("Pressed\n");
+      }
+    }
+  }
+
   strip.setBrightness(NEOPIXEL_BRIGHTNESS);
   if (buttonState) {
     strip.setPixelColor(0, strip.Color(255, 0, 0));
@@ -49,5 +80,18 @@ void pin_ISR() {
     strip.setPixelColor(0, strip.Color(0, 255, 0));
     strip.show();
   }
+
   
+  lastButtonState = buttonRead;
+
+}
+
+// Interrupt functions
+void pin_ISR_0() {
+ }
+
+void pin_ISR_1() {
+}
+
+void pin_ISR_2() {
 }
