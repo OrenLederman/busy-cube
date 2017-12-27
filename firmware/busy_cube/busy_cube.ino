@@ -67,10 +67,16 @@ void loop() {
 
 // ----------------------------------------------------------- //
 // Colors and color control
-const uint16_t NUM_COLORS = 6; // Number of colors
-const uint16_t NUM_COLOR_PASSES = NUM_COLORS / 3; // number of passes. At each pass we pick a color from R, G, or B range
-const uint16_t WHEEL_PASS_INC = 255 / NUM_COLOR_PASSES;
-const uint16_t WHEEL_STEP = 85;    // How many colors to skip in the wheel;
+const uint16_t NUM_COLORS = 6;                          // How many colors?
+const uint16_t WHEEL_POS[] = {0,85,170,42,127,212};     // List of colors (as Wheel positions..)
+  /*
+   * 0 - red
+   * 85 - green
+   * 170 - blue
+   * 127 - light blue
+   * 212 - purple
+   * 42 - yello
+   */
 
 uint16_t button_color_numbers[NUM_BUTTONS]; // current color number of every button
 
@@ -86,10 +92,10 @@ uint16_t get_button_color_number(int button_id) {
 
 uint32_t get_button_color(int button_id) {
   uint16_t color_number = get_button_color_number(button_id);
-  uint16_t pass_num = color_number / 3;   
-  uint16_t wheel_pos = ((color_number*WHEEL_STEP)+(pass_num*WHEEL_PASS_INC)) % 255;
+  uint16_t wheel_pos = WHEEL_POS[color_number];
   uint32_t  c = Wheel(wheel_pos);
   return(c);
+
 }
 
 /**
