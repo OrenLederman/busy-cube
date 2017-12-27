@@ -25,10 +25,10 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_BUTTONS, NEOPIXEL_PIN, NEO_GRB +
 
 void setup() {
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB
-  }
-  
+
+  // Init colors
+  init_button_color_numbers();
+ 
   // initialize the pushbutton pin as an input, and turning up the internal 
   // pullup pin
   for (int i=0; i < NUM_BUTTONS ;i++) {
@@ -44,12 +44,15 @@ void setup() {
 
   // Init neopixels
   strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
+  for (int i=0; i < NUM_BUTTONS; i++) {
+      strip.setPixelColor(i, 0);
+  }  
+  strip.show();
 
-  // Init colors
-  init_button_color_numbers();
+  // Seem to need a delay here, otherwise, the neopixel gets turned on. Not sure why
+  delay(500);
+
   Serial.println("Ready");
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
 }
 
 void loop() {
