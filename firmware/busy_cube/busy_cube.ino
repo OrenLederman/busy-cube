@@ -1,9 +1,9 @@
 #include <Adafruit_NeoPixel.h>
 
 // Pins
-const int BUTTON_PIN_0 = 0;         // Pin for button 0. Has to be an interrupt pin 
-const int BUTTON_PIN_1 = 1;         // Pin for button 1. Has to be an interrupt pin
-const int BUTTON_PIN_2 = 2;         // Pin for button 2. Has to be an interrupt pin
+const int BUTTON_PIN_0 = 7;         // Pin for button 0. Has to be an interrupt pin 
+const int BUTTON_PIN_1 = 8;         // Pin for button 1. Has to be an interrupt pin
+const int BUTTON_PIN_2 = 9;         // Pin for button 2. Has to be an interrupt pin
 const int NEOPIXEL_PIN = 12;        // neopixel pin
 
 // buttons defs
@@ -34,6 +34,8 @@ void setup() {
   for (int i=0; i < NUM_BUTTONS ;i++) {
     pinMode(button_pins[i],  INPUT_PULLUP);
   }
+
+  pinMode(LED_BUILTIN,  OUTPUT);
   
   // Attach an interrupt to the ISR vector
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_0), pin_ISR_0, CHANGE);
@@ -47,6 +49,7 @@ void setup() {
   // Init colors
   init_button_color_numbers();
   Serial.println("Ready");
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
 }
 
 void loop() {
@@ -197,6 +200,7 @@ boolean is_button_pressed(int button_id) {
 // ----------------------------------------------------------- //
 // Interrupt functions
 void pin_ISR_0() {
+  Serial.println("button!");
  }
 
 void pin_ISR_1() {
