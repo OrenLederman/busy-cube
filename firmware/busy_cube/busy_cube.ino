@@ -1,14 +1,13 @@
 #include <Adafruit_NeoPixel.h>
 
 // Pins
-const int BUTTON_PIN_0 = 0;    // Pin for button 0. Has to be an interrupt pin 
-const int BUTTON_PIN_1 = 1;    // Pin for button 1. Has to be an interrupt pin
-const int BUTTON_PIN_2 = 2;    // Pin for button 2. Has to be an interrupt pin
-
-const int NEOPIXEL_PIN = 12; // neopixel pin
+const int BUTTON_PIN_0 = 0;         // Pin for button 0. Has to be an interrupt pin 
+const int BUTTON_PIN_1 = 1;         // Pin for button 1. Has to be an interrupt pin
+const int BUTTON_PIN_2 = 2;         // Pin for button 2. Has to be an interrupt pin
+const int NEOPIXEL_PIN = 12;        // neopixel pin
 
 // buttons defs
-const int NUM_BUTTONS = 3;
+const int NUM_BUTTONS = 3;          // Number of buttons
 int button_pins[] = {BUTTON_PIN_0, BUTTON_PIN_1, BUTTON_PIN_2};
 
 // Neopixel configuration
@@ -26,6 +25,9 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_BUTTONS, NEOPIXEL_PIN, NEO_GRB +
 
 void setup() {
   Serial.begin(9600);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB
+  }
   
   // initialize the pushbutton pin as an input, and turning up the internal 
   // pullup pin
@@ -41,26 +43,74 @@ void setup() {
   // Init neopixels
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+
+  // Init colors
+  init_button_color_numbers();
+  Serial.println("Ready");
 }
 
 void loop() {
   
   strip.setBrightness(NEOPIXEL_BRIGHTNESS);
-  if (isButtonPressed(0)) {
-    strip.setPixelColor(0, strip.Color(255, 0, 0));
-  } else {
-    strip.setPixelColor(0, strip.Color(0, 255, 0));
+  if (is_new_press(0)) {
+    bump_button_color(0);
+    strip.setPixelColor(0, get_button_color(0));
   }
-
-  if (isButtonPressed(1)) {
-    strip.setPixelColor(1, strip.Color(255, 0, 0));
-  } else {
-    strip.setPixelColor(1, strip.Color(0, 255, 0));
+    
+  if (is_new_press(1)) {
+    bump_button_color(1);
+    strip.setPixelColor(1, get_button_color(1));
   }
-
+  
   strip.show();
+}
+
+// ----------------------------------------------------------- //
+// Colors and color control
+const int NUM_COLORS = 6;           // Number of colors
+const uint16_t WHEEL_STEP = 255 / NUM_COLORS;    // How many colors to skip in the wheel;
+
+uint16_t button_color_numbers[NUM_BUTTONS]; // current color number of every button
+
+void init_button_color_numbers() {
+  for (int i=0; i < NUM_BUTTONS; i++) {
+    button_color_numbers[i] = -1;
+  }
+}
+
+uint16_t get_button_color_number(int button_id) {
+  return button_color_numbers[button_id];
+}
+
+uint32_t get_button_color(int button_id) {
+  uint16_t color_number = get_button_color_number(button_id);
+  Serial.println(color_number*WHEEL_STEP);
+  uint32_t  c = Wheel(color_number*WHEEL_STEP);
+  return(c);
+}
+
+/**
+ * changes the color of a button to the next color
+ */
+void bump_button_color(int button_id) {
+  button_color_numbers[button_id] = (button_color_numbers[button_id] + 1) % NUM_COLORS;  
+}
 
 
+// Source - Adafruit's example sketches
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 // ----------------------------------------------------------- //
@@ -73,59 +123,70 @@ const boolean BUTTON_PRESSED = LOW;  // Set to LOW if using internal pullup resi
 
 typedef struct 
   {
-    int buttonRead = HIGH;           // the current reading from the input pin
-    int buttonState;           // the current state of the button (after debouncing)
-    int lastButtonState = HIGH;       // the previous statue of the button
-    unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled    
-  } button_state;
+    int button_read = HIGH;     // the current reading from the input pin
+    int button_state;           // the current state of the button (after debouncing)
+    int last_button_state = HIGH;// the previous statue of the button
+    unsigned long last_debounce_time = 0;  // the last time the output pin was toggled    
+  } button_state_t;
 
-button_state button_states[NUM_BUTTONS];
-
-/**
- * Is the button in pressed state
- */
-boolean isButtonPressed(int buttonId)
-{
-  if (debounceButton(buttonId) == BUTTON_PRESSED) {
-    return true;
-  } else {
-    return false;
-  }
-}
+button_state_t button_states[NUM_BUTTONS]; // buttons debouncing internal states
 
 /**
  * Code for debouncing button
  */
-boolean debounceButton(int buttonId)
-{
+boolean debounce_button(int button_id) {
   // reading
-  button_states[buttonId].buttonRead = digitalRead(button_pins[buttonId]);
+  button_states[button_id].button_read = digitalRead(button_pins[button_id]);
   
   // If the switch changed, due to noise or pressing:
-  if (button_states[buttonId].buttonRead != button_states[buttonId].lastButtonState) {
+  if (button_states[button_id].button_read != button_states[button_id].last_button_state) {
     // reset the debouncing timer
-    button_states[buttonId].lastDebounceTime = millis();
+    button_states[button_id].last_debounce_time = millis();
   }
 
-  if ((millis() - button_states[buttonId].lastDebounceTime) > debounceDelay) {
+  if ((millis() - button_states[button_id].last_debounce_time) > debounceDelay) {
     // whatever the reading is at, it's been there for longer than the debounce
     // delay, so take it as the actual current state:
 
     // if the button state has changed:
-    if (button_states[buttonId].buttonRead != button_states[buttonId].buttonState) {
-      button_states[buttonId].buttonState = button_states[buttonId].buttonRead;
-      if (button_states[buttonId].buttonState) {
-        Serial.write(buttonId);
-        Serial.write(" Released\n");
-      } else {
-        Serial.write(buttonId);
-        Serial.write(" Pressed\n");
-      }
+    if (button_states[button_id].button_read != button_states[button_id].button_state) {
+      button_states[button_id].button_state = button_states[button_id].button_read;
     }
   }
 
-  button_states[buttonId].lastButtonState = button_states[buttonId].buttonRead;
-  return button_states[buttonId].buttonState;
+  button_states[button_id].last_button_state = button_states[button_id].button_read;
+  return button_states[button_id].button_state;
+}
+
+// ----------------------------------------------------------- //
+// button press tracking. I use this code to track when the button 
+// was pressed.
+boolean buttons_last_status[NUM_BUTTONS] = {false};
+
+/**
+ * Checks the current status (pressed or not), returns true
+ * if the button is pressed, and it's a new press event
+ */
+boolean is_new_press(int button_id) {
+  boolean is_pressed_now = is_button_pressed(button_id);
+  boolean ret_val = false;
+  if (is_pressed_now && !buttons_last_status[button_id]) {
+    ret_val = true;
+  }
+
+  buttons_last_status[button_id] = is_pressed_now;
+  return ret_val;
+}
+
+/**
+ * Is the button in pressed state
+ */
+boolean is_button_pressed(int button_id) {
+  if (debounce_button(button_id) == BUTTON_PRESSED) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // ----------------------------------------------------------- //
