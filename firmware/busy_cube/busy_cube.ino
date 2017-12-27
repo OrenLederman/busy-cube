@@ -50,17 +50,13 @@ void setup() {
 }
 
 void loop() {
-  
   strip.setBrightness(NEOPIXEL_BRIGHTNESS);
-  if (is_new_press(0)) {
-    bump_button_color(0);
-    strip.setPixelColor(0, get_button_color(0));
-  }
-    
-  if (is_new_press(1)) {
-    bump_button_color(1);
-    strip.setPixelColor(1, get_button_color(1));
-  }
+  for (int i=0; i < NUM_BUTTONS; i++) {
+    if (is_new_press(i)) {
+      bump_button_color(i);
+      strip.setPixelColor(i, get_button_color(i));
+    }
+  }  
   
   strip.show();
 }
