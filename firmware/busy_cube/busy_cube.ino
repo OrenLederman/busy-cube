@@ -67,8 +67,10 @@ void loop() {
 
 // ----------------------------------------------------------- //
 // Colors and color control
-const int NUM_COLORS = 6;           // Number of colors
-const uint16_t WHEEL_STEP = 255 / NUM_COLORS;    // How many colors to skip in the wheel;
+const uint16_t NUM_COLORS = 6; // Number of colors
+const uint16_t NUM_COLOR_PASSES = NUM_COLORS / 3; // number of passes. At each pass we pick a color from R, G, or B range
+const uint16_t WHEEL_PASS_INC = 255 / NUM_COLOR_PASSES;
+const uint16_t WHEEL_STEP = 85;    // How many colors to skip in the wheel;
 
 uint16_t button_color_numbers[NUM_BUTTONS]; // current color number of every button
 
@@ -84,8 +86,9 @@ uint16_t get_button_color_number(int button_id) {
 
 uint32_t get_button_color(int button_id) {
   uint16_t color_number = get_button_color_number(button_id);
-  Serial.println(color_number*WHEEL_STEP);
-  uint32_t  c = Wheel(color_number*WHEEL_STEP);
+  uint16_t pass_num = color_number / 3;   
+  uint16_t wheel_pos = ((color_number*WHEEL_STEP)+(pass_num*WHEEL_PASS_INC)) % 255;
+  uint32_t  c = Wheel(wheel_pos);
   return(c);
 }
 
