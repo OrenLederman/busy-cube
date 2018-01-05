@@ -2885,9 +2885,9 @@ No silk outline, but tDocu layer shows pin location.
 <part name="U$1" library="busy_cube_lib" deviceset="POLOLU-ASTAR-MICRO" device="MINIMAL"/>
 <part name="POWERBOOST" library="busy_cube_lib" deviceset="ADA-POWERBOOST-1000C" device="PADS-ONLY"/>
 <part name="LIS3DH" library="busy_cube_lib" deviceset="ADA-LIS3DH" device="PADS_ONLY"/>
+<part name="S0" library="busy_cube_lib" deviceset="ADA-ARCADE-BTN" device="30MM"/>
 <part name="S1" library="busy_cube_lib" deviceset="ADA-ARCADE-BTN" device="30MM"/>
 <part name="S2" library="busy_cube_lib" deviceset="ADA-ARCADE-BTN" device="30MM"/>
-<part name="S3" library="busy_cube_lib" deviceset="ADA-ARCADE-BTN" device="30MM"/>
 <part name="USB_CONN" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
 <part name="BAT_CONN" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
 <part name="NEO_PIXELS" library="busy_cube_lib" deviceset="CONN_03" device="LONGPADS"/>
@@ -2914,13 +2914,13 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="U$1" gate="G$1" x="48.26" y="58.42"/>
 <instance part="POWERBOOST" gate="G$1" x="104.14" y="86.36"/>
 <instance part="LIS3DH" gate="G$1" x="-12.7" y="53.34" rot="MR0"/>
-<instance part="S1" gate="G$1" x="15.24" y="81.28" smashed="yes" rot="R270">
+<instance part="S0" gate="G$1" x="15.24" y="81.28" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="85.725" size="1.778" layer="95"/>
 </instance>
-<instance part="S2" gate="G$1" x="15.24" y="93.98" smashed="yes" rot="R270">
+<instance part="S1" gate="G$1" x="15.24" y="93.98" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="98.425" size="1.778" layer="95"/>
 </instance>
-<instance part="S3" gate="G$1" x="15.24" y="106.68" smashed="yes" rot="R270">
+<instance part="S2" gate="G$1" x="15.24" y="106.68" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="111.125" size="1.778" layer="95"/>
 </instance>
 <instance part="USB_CONN" gate="G$1" x="55.88" y="101.6"/>
@@ -2964,13 +2964,13 @@ No silk outline, but tDocu layer shows pin location.
 <pinref part="GND4" gate="1" pin="GND"/>
 <wire x1="2.54" y1="91.44" x2="7.62" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="7.62" y1="91.44" x2="7.62" y2="104.14" width="0.1524" layer="91"/>
-<pinref part="S3" gate="G$1" pin="P"/>
-<wire x1="7.62" y1="104.14" x2="10.16" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="S2" gate="G$1" pin="P"/>
+<wire x1="7.62" y1="104.14" x2="10.16" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="S1" gate="G$1" pin="P"/>
 <wire x1="7.62" y1="91.44" x2="10.16" y2="91.44" width="0.1524" layer="91"/>
 <junction x="7.62" y="91.44"/>
 <wire x1="7.62" y1="91.44" x2="7.62" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="S1" gate="G$1" pin="P"/>
+<pinref part="S0" gate="G$1" pin="P"/>
 <wire x1="10.16" y1="78.74" x2="7.62" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
@@ -3041,12 +3041,12 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="22.86" y1="43.18" x2="-10.16" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="BTN3" class="0">
+<net name="BTN2" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="9"/>
 <wire x1="33.02" y1="68.58" x2="27.94" y2="68.58" width="0.1524" layer="91"/>
 <wire x1="27.94" y1="68.58" x2="27.94" y2="104.14" width="0.1524" layer="91"/>
-<pinref part="S3" gate="G$1" pin="S"/>
+<pinref part="S2" gate="G$1" pin="S"/>
 <wire x1="27.94" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
 <label x="22.86" y="104.14" size="1.778" layer="95"/>
 </segment>
@@ -3085,9 +3085,9 @@ No silk outline, but tDocu layer shows pin location.
 <label x="96.52" y="58.42" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="BTN2" class="0">
+<net name="BTN1" class="0">
 <segment>
-<pinref part="S2" gate="G$1" pin="S"/>
+<pinref part="S1" gate="G$1" pin="S"/>
 <wire x1="20.32" y1="91.44" x2="25.4" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="91.44" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="7"/>
@@ -3102,9 +3102,9 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="33.02" y1="58.42" x2="10.16" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="BTN1" class="0">
+<net name="BTN0" class="0">
 <segment>
-<pinref part="S1" gate="G$1" pin="S"/>
+<pinref part="S0" gate="G$1" pin="S"/>
 <wire x1="20.32" y1="78.74" x2="68.58" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="78.74" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="11"/>
