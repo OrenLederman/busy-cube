@@ -3041,15 +3041,6 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="22.86" y1="43.18" x2="-10.16" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="BTN1" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="8"/>
-<wire x1="33.02" y1="66.04" x2="22.86" y2="66.04" width="0.1524" layer="91"/>
-<pinref part="S1" gate="G$1" pin="S"/>
-<wire x1="22.86" y1="78.74" x2="20.32" y2="78.74" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="66.04" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="BTN3" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="9"/>
@@ -3057,6 +3048,7 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="27.94" y1="68.58" x2="27.94" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="S3" gate="G$1" pin="S"/>
 <wire x1="27.94" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
+<label x="22.86" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="USB_IN_VCC" class="0">
@@ -3100,6 +3092,7 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="25.4" y1="91.44" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="7"/>
 <wire x1="25.4" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+<label x="20.32" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SPKR" class="0">
@@ -3107,6 +3100,16 @@ No silk outline, but tDocu layer shows pin location.
 <pinref part="U$1" gate="G$1" pin="5"/>
 <pinref part="SP1" gate="S1" pin="+"/>
 <wire x1="33.02" y1="58.42" x2="10.16" y2="58.42" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="BTN1" class="0">
+<segment>
+<pinref part="S1" gate="G$1" pin="S"/>
+<wire x1="20.32" y1="78.74" x2="68.58" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="68.58" y1="78.74" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="11"/>
+<wire x1="68.58" y1="60.96" x2="63.5" y2="60.96" width="0.1524" layer="91"/>
+<label x="40.64" y="78.74" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
