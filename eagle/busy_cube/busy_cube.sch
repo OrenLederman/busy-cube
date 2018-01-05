@@ -385,9 +385,9 @@
 <pad name="1" x="-6.35" y="-8.89" drill="1.016"/>
 <pad name="0" x="-6.35" y="-11.43" drill="1.016"/>
 <pad name="P$11" x="-2.54" y="-8.89" drill="1.016"/>
-<pad name="P$12" x="-2.54" y="-11.43" drill="1.016"/>
-<pad name="P$13" x="0" y="-8.89" drill="1.016"/>
-<pad name="P$14" x="0" y="-11.43" drill="1.016"/>
+<pad name="14" x="-2.54" y="-11.43" drill="1.016"/>
+<pad name="16" x="0" y="-8.89" drill="1.016"/>
+<pad name="15" x="0" y="-11.43" drill="1.016"/>
 <pad name="P$15" x="2.54" y="-11.43" drill="1.016"/>
 <pad name="VIN" x="6.35" y="-11.43" drill="1.016"/>
 <pad name="5V" x="6.35" y="-6.35" drill="1.016"/>
@@ -1881,10 +1881,10 @@ No silk outline, but tDocu layer shows pin location.
 </packages>
 <symbols>
 <symbol name="POLOLU-ASTAR-MICRO-SYM">
-<wire x1="-10.16" y1="12.7" x2="10.16" y2="12.7" width="0.254" layer="94"/>
-<wire x1="10.16" y1="12.7" x2="10.16" y2="-15.24" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="20.32" x2="10.16" y2="20.32" width="0.254" layer="94"/>
+<wire x1="10.16" y1="20.32" x2="10.16" y2="-15.24" width="0.254" layer="94"/>
 <wire x1="10.16" y1="-15.24" x2="-10.16" y2="-15.24" width="0.254" layer="94"/>
-<wire x1="-10.16" y1="-15.24" x2="-10.16" y2="12.7" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-15.24" x2="-10.16" y2="20.32" width="0.254" layer="94"/>
 <pin name="1" x="-15.24" y="-10.16" length="middle"/>
 <pin name="2" x="-15.24" y="-7.62" length="middle"/>
 <pin name="3" x="-15.24" y="-5.08" length="middle"/>
@@ -1905,8 +1905,11 @@ No silk outline, but tDocu layer shows pin location.
 <pin name="A1" x="15.24" y="7.62" length="middle" rot="R180"/>
 <pin name="0" x="-15.24" y="-12.7" length="middle"/>
 <pin name="VIN" x="15.24" y="-12.7" length="middle" direction="pwr" rot="R180"/>
-<text x="-10.16" y="13.97" size="1.27" layer="94">&gt;Name</text>
+<text x="-10.16" y="26.67" size="1.27" layer="94">&gt;Name</text>
 <text x="-10.16" y="-17.78" size="1.27" layer="94">&gt;Value</text>
+<pin name="14" x="15.24" y="12.7" length="middle" rot="R180"/>
+<pin name="15" x="15.24" y="15.24" length="middle" rot="R180"/>
+<pin name="16" x="15.24" y="17.78" length="middle" rot="R180"/>
 </symbol>
 <symbol name="ADA-POWERBOOST-1000C-SYM">
 <wire x1="-6.35" y1="-12.7" x2="1.27" y2="-12.7" width="0.4064" layer="94"/>
@@ -2043,6 +2046,9 @@ No silk outline, but tDocu layer shows pin location.
 <connect gate="G$1" pin="10" pad="10"/>
 <connect gate="G$1" pin="11" pad="11"/>
 <connect gate="G$1" pin="12" pad="12"/>
+<connect gate="G$1" pin="14" pad="14"/>
+<connect gate="G$1" pin="15" pad="15"/>
+<connect gate="G$1" pin="16" pad="16"/>
 <connect gate="G$1" pin="2" pad="2"/>
 <connect gate="G$1" pin="3" pad="3"/>
 <connect gate="G$1" pin="3V3" pad="3V3"/>
@@ -2882,7 +2888,7 @@ No silk outline, but tDocu layer shows pin location.
 </class>
 </classes>
 <parts>
-<part name="U$1" library="busy_cube_lib" deviceset="POLOLU-ASTAR-MICRO" device="MINIMAL"/>
+<part name="U$1" library="busy_cube_lib" deviceset="POLOLU-ASTAR-MICRO" device="" value="POLOLU-ASTAR-MICRO"/>
 <part name="POWERBOOST" library="busy_cube_lib" deviceset="ADA-POWERBOOST-1000C" device="PADS-ONLY"/>
 <part name="LIS3DH" library="busy_cube_lib" deviceset="ADA-LIS3DH" device="PADS_ONLY"/>
 <part name="S0" library="busy_cube_lib" deviceset="ADA-ARCADE-BTN" device="30MM"/>
@@ -2905,6 +2911,7 @@ No silk outline, but tDocu layer shows pin location.
 <part name="SUPPLY4" library="busy_cube_lib" deviceset="VCC" device=""/>
 <part name="SP1" library="busy_cube_lib" deviceset="SPEAKER" device="/PS12"/>
 <part name="GND8" library="busy_cube_lib" deviceset="GND" device=""/>
+<part name="R2" library="busy_cube_lib" deviceset="RESISTOR" device="1206" value=" 0"/>
 </parts>
 <sheets>
 <sheet>
@@ -2912,8 +2919,8 @@ No silk outline, but tDocu layer shows pin location.
 </plain>
 <instances>
 <instance part="U$1" gate="G$1" x="48.26" y="58.42"/>
-<instance part="POWERBOOST" gate="G$1" x="104.14" y="86.36"/>
-<instance part="LIS3DH" gate="G$1" x="-12.7" y="53.34" rot="MR0"/>
+<instance part="POWERBOOST" gate="G$1" x="104.14" y="124.46"/>
+<instance part="LIS3DH" gate="G$1" x="86.36" y="76.2" rot="MR180"/>
 <instance part="S0" gate="G$1" x="15.24" y="81.28" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="85.725" size="1.778" layer="95"/>
 </instance>
@@ -2923,23 +2930,24 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="S2" gate="G$1" x="15.24" y="106.68" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="111.125" size="1.778" layer="95"/>
 </instance>
-<instance part="USB_CONN" gate="G$1" x="55.88" y="101.6"/>
-<instance part="BAT_CONN" gate="G$1" x="55.88" y="86.36"/>
-<instance part="NEO_PIXELS" gate="J$1" x="116.84" y="58.42" rot="R180"/>
-<instance part="R1" gate="G$1" x="86.36" y="58.42" rot="R180"/>
-<instance part="GND1" gate="1" x="88.9" y="83.82" rot="R270"/>
-<instance part="SUPPLY1" gate="G$1" x="91.44" y="76.2" rot="R90"/>
+<instance part="USB_CONN" gate="G$1" x="55.88" y="139.7"/>
+<instance part="BAT_CONN" gate="G$1" x="55.88" y="124.46"/>
+<instance part="NEO_PIXELS" gate="J$1" x="124.46" y="30.48" rot="R180"/>
+<instance part="R1" gate="G$1" x="93.98" y="35.56" rot="R90"/>
+<instance part="GND1" gate="1" x="88.9" y="121.92" rot="R270"/>
+<instance part="SUPPLY1" gate="G$1" x="91.44" y="114.3" rot="R90"/>
 <instance part="GND2" gate="1" x="78.74" y="48.26" rot="R90"/>
 <instance part="SUPPLY2" gate="G$1" x="68.58" y="45.72" rot="R270"/>
-<instance part="SUPPLY3" gate="G$1" x="-25.4" y="60.96" rot="R90"/>
-<instance part="GND3" gate="1" x="-27.94" y="55.88" rot="R270"/>
+<instance part="SUPPLY3" gate="G$1" x="99.06" y="68.58" rot="R270"/>
+<instance part="GND3" gate="1" x="101.6" y="73.66" rot="R90"/>
 <instance part="GND4" gate="1" x="0" y="91.44" rot="R270"/>
-<instance part="GND5" gate="1" x="71.12" y="91.44" rot="R180"/>
-<instance part="GND6" gate="1" x="71.12" y="104.14" rot="R90"/>
-<instance part="GND7" gate="1" x="104.14" y="66.04" rot="R180"/>
-<instance part="SUPPLY4" gate="G$1" x="104.14" y="50.8" rot="R180"/>
+<instance part="GND5" gate="1" x="71.12" y="129.54" rot="R180"/>
+<instance part="GND6" gate="1" x="71.12" y="142.24" rot="R90"/>
+<instance part="GND7" gate="1" x="111.76" y="38.1" rot="R180"/>
+<instance part="SUPPLY4" gate="G$1" x="111.76" y="22.86" rot="R180"/>
 <instance part="SP1" gate="S1" x="10.16" y="63.5" rot="R90"/>
 <instance part="GND8" gate="1" x="10.16" y="73.66" rot="R180"/>
+<instance part="R2" gate="G$1" x="68.58" y="78.74"/>
 </instances>
 <busses>
 </busses>
@@ -2947,7 +2955,7 @@ No silk outline, but tDocu layer shows pin location.
 <net name="GND" class="0">
 <segment>
 <pinref part="POWERBOOST" gate="G$1" pin="SDA"/>
-<wire x1="101.6" y1="83.82" x2="91.44" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="121.92" x2="91.44" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -2958,7 +2966,7 @@ No silk outline, but tDocu layer shows pin location.
 <segment>
 <pinref part="LIS3DH" gate="G$1" pin="GND"/>
 <pinref part="GND3" gate="1" pin="GND"/>
-<wire x1="-10.16" y1="55.88" x2="-25.4" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="73.66" x2="99.06" y2="73.66" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND4" gate="1" pin="GND"/>
@@ -2976,18 +2984,18 @@ No silk outline, but tDocu layer shows pin location.
 <segment>
 <pinref part="USB_CONN" gate="G$1" pin="2"/>
 <pinref part="GND6" gate="1" pin="GND"/>
-<wire x1="63.5" y1="104.14" x2="68.58" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="142.24" x2="68.58" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="BAT_CONN" gate="G$1" pin="2"/>
 <pinref part="GND5" gate="1" pin="GND"/>
-<wire x1="63.5" y1="88.9" x2="71.12" y2="88.9" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="127" x2="71.12" y2="127" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND7" gate="1" pin="GND"/>
-<wire x1="104.14" y1="63.5" x2="104.14" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="35.56" x2="111.76" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="NEO_PIXELS" gate="J$1" pin="1"/>
-<wire x1="104.14" y1="60.96" x2="109.22" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="33.02" x2="116.84" y2="33.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SP1" gate="S1" pin="-"/>
@@ -2998,7 +3006,7 @@ No silk outline, but tDocu layer shows pin location.
 <net name="VCC" class="0">
 <segment>
 <pinref part="POWERBOOST" gate="G$1" pin="INT"/>
-<wire x1="101.6" y1="76.2" x2="91.44" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="114.3" x2="91.44" y2="114.3" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
@@ -3009,90 +3017,60 @@ No silk outline, but tDocu layer shows pin location.
 <segment>
 <pinref part="LIS3DH" gate="G$1" pin="VIN"/>
 <pinref part="SUPPLY3" gate="G$1" pin="VCC"/>
-<wire x1="-10.16" y1="60.96" x2="-25.4" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="68.58" x2="99.06" y2="68.58" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="SUPPLY4" gate="G$1" pin="VCC"/>
-<wire x1="104.14" y1="50.8" x2="104.14" y2="55.88" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="22.86" x2="111.76" y2="27.94" width="0.1524" layer="91"/>
 <pinref part="NEO_PIXELS" gate="J$1" pin="3"/>
-<wire x1="104.14" y1="55.88" x2="109.22" y2="55.88" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="3"/>
-<pinref part="LIS3DH" gate="G$1" pin="SCL"/>
-<wire x1="33.02" y1="53.34" x2="-10.16" y2="53.34" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$2" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="2"/>
-<pinref part="LIS3DH" gate="G$1" pin="SDA"/>
-<wire x1="33.02" y1="50.8" x2="-10.16" y2="50.8" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$3" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="0"/>
-<wire x1="33.02" y1="45.72" x2="22.86" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="22.86" y1="45.72" x2="22.86" y2="43.18" width="0.1524" layer="91"/>
-<pinref part="LIS3DH" gate="G$1" pin="INT"/>
-<wire x1="22.86" y1="43.18" x2="-10.16" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="111.76" y1="27.94" x2="116.84" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BTN2" class="0">
 <segment>
-<pinref part="U$1" gate="G$1" pin="9"/>
-<wire x1="33.02" y1="68.58" x2="27.94" y2="68.58" width="0.1524" layer="91"/>
-<wire x1="27.94" y1="68.58" x2="27.94" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="S2" gate="G$1" pin="S"/>
-<wire x1="27.94" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="30.48" y1="104.14" x2="20.32" y2="104.14" width="0.1524" layer="91"/>
 <label x="22.86" y="104.14" size="1.778" layer="95"/>
+<wire x1="30.48" y1="104.14" x2="30.48" y2="53.34" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="3"/>
+<wire x1="30.48" y1="53.34" x2="33.02" y2="53.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="USB_IN_VCC" class="0">
 <segment>
 <pinref part="USB_CONN" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="101.6" x2="93.98" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="93.98" y1="101.6" x2="93.98" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="139.7" x2="93.98" y2="139.7" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="139.7" x2="93.98" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="POWERBOOST" gate="G$1" pin="VIN"/>
-<wire x1="93.98" y1="93.98" x2="101.6" y2="93.98" width="0.1524" layer="91"/>
+<wire x1="93.98" y1="132.08" x2="101.6" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BAT_IN_VCC" class="0">
 <segment>
 <pinref part="BAT_CONN" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="86.36" x2="81.28" y2="86.36" width="0.1524" layer="91"/>
-<wire x1="81.28" y1="86.36" x2="81.28" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="63.5" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="124.46" x2="81.28" y2="129.54" width="0.1524" layer="91"/>
 <pinref part="POWERBOOST" gate="G$1" pin="3VO"/>
-<wire x1="81.28" y1="91.44" x2="101.6" y2="91.44" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="NEO" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="12"/>
-<pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="63.5" y1="58.42" x2="81.28" y2="58.42" width="0.1524" layer="91"/>
-<label x="71.12" y="58.42" size="1.778" layer="95"/>
+<wire x1="81.28" y1="129.54" x2="101.6" y2="129.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="NEO_RES" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
 <pinref part="NEO_PIXELS" gate="J$1" pin="2"/>
-<wire x1="91.44" y1="58.42" x2="109.22" y2="58.42" width="0.1524" layer="91"/>
-<label x="96.52" y="58.42" size="1.778" layer="95"/>
+<wire x1="93.98" y1="30.48" x2="116.84" y2="30.48" width="0.1524" layer="91"/>
+<label x="104.14" y="30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BTN1" class="0">
 <segment>
 <pinref part="S1" gate="G$1" pin="S"/>
-<wire x1="20.32" y1="91.44" x2="25.4" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="25.4" y1="91.44" x2="25.4" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="7"/>
-<wire x1="25.4" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="20.32" y1="91.44" x2="22.86" y2="91.44" width="0.1524" layer="91"/>
 <label x="20.32" y="91.44" size="1.778" layer="95"/>
+<wire x1="25.4" y1="91.44" x2="22.86" y2="91.44" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="91.44" x2="22.86" y2="50.8" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="2"/>
+<wire x1="22.86" y1="50.8" x2="33.02" y2="50.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SPKR" class="0">
@@ -3102,14 +3080,71 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="33.02" y1="58.42" x2="10.16" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="BTN0" class="0">
+<net name="N$2" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="12"/>
+<wire x1="63.5" y1="58.42" x2="93.98" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="R1" gate="G$1" pin="2"/>
+<wire x1="93.98" y1="58.42" x2="93.98" y2="40.64" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="LIS3DH" gate="G$1" pin="INT"/>
+<wire x1="83.82" y1="86.36" x2="27.94" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="27.94" y1="86.36" x2="27.94" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="1"/>
+<wire x1="27.94" y1="48.26" x2="33.02" y2="48.26" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$4" class="0">
+<segment>
+<pinref part="LIS3DH" gate="G$1" pin="SDO"/>
+<wire x1="83.82" y1="81.28" x2="78.74" y2="81.28" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="81.28" x2="78.74" y2="71.12" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="14"/>
+<wire x1="78.74" y1="71.12" x2="63.5" y2="71.12" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="LIS3DH" gate="G$1" pin="SCL"/>
+<wire x1="83.82" y1="76.2" x2="76.2" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="76.2" x2="76.2" y2="73.66" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="15"/>
+<wire x1="76.2" y1="73.66" x2="63.5" y2="73.66" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$7" class="0">
 <segment>
 <pinref part="S0" gate="G$1" pin="S"/>
-<wire x1="20.32" y1="78.74" x2="68.58" y2="78.74" width="0.1524" layer="91"/>
-<wire x1="68.58" y1="78.74" x2="68.58" y2="60.96" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="11"/>
-<wire x1="68.58" y1="60.96" x2="63.5" y2="60.96" width="0.1524" layer="91"/>
-<label x="40.64" y="78.74" size="1.778" layer="95"/>
+<wire x1="20.32" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="22.86" y1="78.74" x2="22.86" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="7"/>
+<wire x1="22.86" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$3" class="0">
+<segment>
+<pinref part="LIS3DH" gate="G$1" pin="CS"/>
+<wire x1="83.82" y1="83.82" x2="25.4" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="25.4" y1="83.82" x2="25.4" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="0"/>
+<wire x1="25.4" y1="45.72" x2="33.02" y2="45.72" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$8" class="0">
+<segment>
+<pinref part="LIS3DH" gate="G$1" pin="SDA"/>
+<pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="83.82" y1="78.74" x2="73.66" y2="78.74" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="R2" gate="G$1" pin="1"/>
+<pinref part="U$1" gate="G$1" pin="16"/>
+<wire x1="63.5" y1="78.74" x2="63.5" y2="76.2" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

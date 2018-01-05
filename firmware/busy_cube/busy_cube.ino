@@ -1,10 +1,22 @@
 #include <Adafruit_NeoPixel.h>
+#include <SPI.h>
+#include <Adafruit_LIS3DH.h>
+#include <Adafruit_Sensor.h>
+
+// Accel (hardware SPI)
+const int8_t LIS3DH_CS = 0;
+
+// hardware SPI
+Adafruit_LIS3DH lis = Adafruit_LIS3DH(LIS3DH_CS);
+const int ACCEL_INT_PIN = 1;        // Pin for accelerometer interrupt. Must be an INT pin
+#define CLICKTHRESHHOLD 80
 
 // Pins
 const int BUTTON_PIN_0 = 7;         // Pin for button 0. Has to be an interrupt pin 
-const int BUTTON_PIN_1 = 8;         // Pin for button 1. Has to be an interrupt pin
-const int BUTTON_PIN_2 = 9;         // Pin for button 2. Has to be an interrupt pin
+const int BUTTON_PIN_1 = 2;         // Pin for button 1. Has to be an interrupt pin
+const int BUTTON_PIN_2 = 3;         // Pin for button 2. Has to be an interrupt pin
 const int NEOPIXEL_PIN = 12;        // neopixel pin
+const int BUZZER_PIN = 5;        // buzzer
 
 // buttons defs
 const int NUM_BUTTONS = 3;          // Number of buttons
@@ -24,6 +36,7 @@ const int NEOPIXEL_BRIGHTNESS = 20;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_BUTTONS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
+  while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
   Serial.begin(9600);
 
   // Init colors
@@ -49,16 +62,46 @@ void setup() {
   }  
   strip.show();
 
+  // Acceleromoter settings
+  pinMode(ACCEL_INT_PIN,  INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(ACCEL_INT_PIN), pin_ISR_ACCEL, CHANGE);
+  if (! lis.begin(0x18)) {   // change this to 0x19 for alternative i2c address
+    Serial.println("LIS3DH Couldnt start");
+    while (1);
+  }
+  Serial.println("LIS3DH found!");
+  
+  lis.setRange(LIS3DH_RANGE_2_G);   // 2, 4, 8 or 16 G!
+  
+  Serial.print("Range = "); Serial.print(2 << lis.getRange());  
+  Serial.println("G");
+
+  // 0 = turn off click detection & interrupt
+  // 1 = single click only interrupt output
+  // 2 = double click only interrupt output, detect single click
+  // Adjust threshhold, higher numbers are less sensitive
+  lis.setClick(2, CLICKTHRESHHOLD);
+
   // Seem to need a delay here, otherwise, the neopixel gets turned on. Not sure why
-  delay(500);
+  delay(2000);
 
   Serial.println("Ready");
+  Serial.println(digitalPinToInterrupt(BUTTON_PIN_0));
+
+    // Beep!
+  int noteDuration = 1000 / 4;
+  tone(BUZZER_PIN, 262, noteDuration);
+  int pauseBetweenNotes = noteDuration * 1.30;
+  delay(pauseBetweenNotes);
+  // stop the tone playing:
+  noTone(BUZZER_PIN);
 }
 
 void loop() {
   strip.setBrightness(NEOPIXEL_BRIGHTNESS);
   for (int i=0; i < NUM_BUTTONS; i++) {
     if (is_new_press(i)) {
+      Serial.println("button! (in loop)");
       bump_button_color(i);
       strip.setPixelColor(i, get_button_color(i));
     }
@@ -202,12 +245,19 @@ boolean is_button_pressed(int button_id) {
 
 // ----------------------------------------------------------- //
 // Interrupt functions
+void pin_ISR_ACCEL() {
+  Serial.println("accel int!");
+ }
+
+
 void pin_ISR_0() {
-  Serial.println("button!");
+  Serial.println("button0 int!");
  }
 
 void pin_ISR_1() {
+  Serial.println("button1 int!");
 }
 
 void pin_ISR_2() {
+  Serial.println("button2 int!");
 }
