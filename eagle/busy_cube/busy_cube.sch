@@ -525,8 +525,8 @@
 </package>
 <package name="ARCADE-BTN-30MM">
 <circle x="0" y="0" radius="16.94941875" width="0.127" layer="21"/>
-<pad name="T" x="-4.234784375" y="2.44093125" drill="2.8448"/>
-<pad name="P" x="4.2238125" y="2.44093125" drill="2.8448"/>
+<pad name="T" x="-4.234784375" y="2.44093125" drill="3.0734"/>
+<pad name="P" x="4.2238125" y="2.44093125" drill="3.0734"/>
 <text x="-5.842" y="6.604" size="1.27" layer="25" font="vector">&gt;NAME</text>
 <wire x1="6.323859375" y1="-5.8264" x2="-6.326190625" y2="-5.8264" width="0.127" layer="21"/>
 <wire x1="-6.326190625" y1="-5.8264" x2="-6.326190625" y2="5.823540625" width="0.127" layer="21"/>
@@ -2923,8 +2923,8 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="U$1" gate="G$1" x="48.26" y="58.42"/>
 <instance part="POWERBOOST" gate="G$1" x="104.14" y="124.46"/>
 <instance part="LIS3DH" gate="G$1" x="86.36" y="76.2" rot="MR180"/>
-<instance part="S0" gate="G$1" x="15.24" y="81.28" smashed="yes" rot="R270">
-<attribute name="NAME" x="13.335" y="85.725" size="1.778" layer="95"/>
+<instance part="S0" gate="G$1" x="15.24" y="83.82" smashed="yes" rot="R90">
+<attribute name="NAME" x="17.145" y="79.375" size="1.778" layer="95" rot="R180"/>
 </instance>
 <instance part="S1" gate="G$1" x="15.24" y="93.98" smashed="yes" rot="R270">
 <attribute name="NAME" x="13.335" y="98.425" size="1.778" layer="95"/>
@@ -2981,9 +2981,9 @@ No silk outline, but tDocu layer shows pin location.
 <pinref part="S1" gate="G$1" pin="P"/>
 <wire x1="7.62" y1="91.44" x2="10.16" y2="91.44" width="0.1524" layer="91"/>
 <junction x="7.62" y="91.44"/>
-<wire x1="7.62" y1="91.44" x2="7.62" y2="78.74" width="0.1524" layer="91"/>
-<pinref part="S0" gate="G$1" pin="P"/>
-<wire x1="10.16" y1="78.74" x2="7.62" y2="78.74" width="0.1524" layer="91"/>
+<wire x1="7.62" y1="91.44" x2="7.62" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="S0" gate="G$1" pin="S"/>
+<wire x1="10.16" y1="86.36" x2="7.62" y2="86.36" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="USB_CONN" gate="G$1" pin="2"/>
@@ -3123,11 +3123,7 @@ No silk outline, but tDocu layer shows pin location.
 </net>
 <net name="N$7" class="0">
 <segment>
-<pinref part="S0" gate="G$1" pin="S"/>
-<wire x1="20.32" y1="78.74" x2="22.86" y2="78.74" width="0.1524" layer="91"/>
 <wire x1="22.86" y1="78.74" x2="22.86" y2="63.5" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="7"/>
-<wire x1="22.86" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -3166,6 +3162,14 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="63.5" y1="124.46" x2="71.12" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="EXT_SWITCH" gate="G$1" pin="2"/>
 <wire x1="71.12" y1="124.46" x2="71.12" y2="121.92" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$11" class="0">
+<segment>
+<pinref part="S0" gate="G$1" pin="P"/>
+<wire x1="20.32" y1="86.36" x2="20.32" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="7"/>
+<wire x1="20.32" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
