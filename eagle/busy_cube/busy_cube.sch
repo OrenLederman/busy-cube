@@ -2912,6 +2912,8 @@ No silk outline, but tDocu layer shows pin location.
 <part name="SP1" library="busy_cube_lib" deviceset="SPEAKER" device="/PS12"/>
 <part name="GND8" library="busy_cube_lib" deviceset="GND" device=""/>
 <part name="R2" library="busy_cube_lib" deviceset="RESISTOR" device="1206" value=" 0"/>
+<part name="R3" library="busy_cube_lib" deviceset="RESISTOR" device="AXIAL-0.3" value="300"/>
+<part name="EXT_SWITCH" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
 </parts>
 <sheets>
 <sheet>
@@ -2945,9 +2947,11 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="GND6" gate="1" x="71.12" y="142.24" rot="R90"/>
 <instance part="GND7" gate="1" x="111.76" y="38.1" rot="R180"/>
 <instance part="SUPPLY4" gate="G$1" x="111.76" y="22.86" rot="R180"/>
-<instance part="SP1" gate="S1" x="10.16" y="63.5" rot="R90"/>
-<instance part="GND8" gate="1" x="10.16" y="73.66" rot="R180"/>
+<instance part="SP1" gate="S1" x="7.62" y="63.5" rot="R90"/>
+<instance part="GND8" gate="1" x="7.62" y="73.66" rot="R180"/>
 <instance part="R2" gate="G$1" x="68.58" y="78.74"/>
+<instance part="R3" gate="G$1" x="15.24" y="58.42" rot="R180"/>
+<instance part="EXT_SWITCH" gate="G$1" x="73.66" y="114.3" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -2999,7 +3003,7 @@ No silk outline, but tDocu layer shows pin location.
 </segment>
 <segment>
 <pinref part="SP1" gate="S1" pin="-"/>
-<wire x1="10.16" y1="68.58" x2="10.16" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="7.62" y1="68.58" x2="7.62" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="GND8" gate="1" pin="GND"/>
 </segment>
 </net>
@@ -3047,11 +3051,13 @@ No silk outline, but tDocu layer shows pin location.
 </net>
 <net name="BAT_IN_VCC" class="0">
 <segment>
-<pinref part="BAT_CONN" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="124.46" x2="81.28" y2="129.54" width="0.1524" layer="91"/>
 <pinref part="POWERBOOST" gate="G$1" pin="3VO"/>
 <wire x1="81.28" y1="129.54" x2="101.6" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="EXT_SWITCH" gate="G$1" pin="1"/>
+<wire x1="73.66" y1="121.92" x2="73.66" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="73.66" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
+<label x="78.74" y="129.54" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="NEO_RES" class="0">
@@ -3076,8 +3082,8 @@ No silk outline, but tDocu layer shows pin location.
 <net name="SPKR" class="0">
 <segment>
 <pinref part="U$1" gate="G$1" pin="5"/>
-<pinref part="SP1" gate="S1" pin="+"/>
-<wire x1="33.02" y1="58.42" x2="10.16" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="58.42" x2="20.32" y2="58.42" width="0.1524" layer="91"/>
+<pinref part="R3" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -3145,6 +3151,21 @@ No silk outline, but tDocu layer shows pin location.
 <pinref part="R2" gate="G$1" pin="1"/>
 <pinref part="U$1" gate="G$1" pin="16"/>
 <wire x1="63.5" y1="78.74" x2="63.5" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$9" class="0">
+<segment>
+<pinref part="SP1" gate="S1" pin="+"/>
+<pinref part="R3" gate="G$1" pin="2"/>
+<wire x1="10.16" y1="58.42" x2="7.62" y2="58.42" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$10" class="0">
+<segment>
+<pinref part="BAT_CONN" gate="G$1" pin="1"/>
+<wire x1="63.5" y1="124.46" x2="71.12" y2="124.46" width="0.1524" layer="91"/>
+<pinref part="EXT_SWITCH" gate="G$1" pin="2"/>
+<wire x1="71.12" y1="124.46" x2="71.12" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
