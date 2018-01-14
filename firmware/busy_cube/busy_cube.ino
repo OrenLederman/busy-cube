@@ -23,7 +23,7 @@ const int NUM_BUTTONS = 3;          // Number of buttons
 int button_pins[] = {BUTTON_PIN_0, BUTTON_PIN_1, BUTTON_PIN_2};
 
 // Neopixel configuration
-const int NEOPIXEL_BRIGHTNESS = 20;
+const int NEOPIXEL_BRIGHTNESS = 100;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -36,7 +36,7 @@ const int NEOPIXEL_BRIGHTNESS = 20;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_BUTTONS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
-  while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
+  //while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
   Serial.begin(9600);
 
   // Init colors
@@ -67,9 +67,10 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(ACCEL_INT_PIN), pin_ISR_ACCEL, CHANGE);
   if (! lis.begin(0x18)) {   // change this to 0x19 for alternative i2c address
     Serial.println("LIS3DH Couldnt start");
-    while (1);
+    //while (1);
+  } else {
+    Serial.println("LIS3DH found!");
   }
-  Serial.println("LIS3DH found!");
   
   lis.setRange(LIS3DH_RANGE_2_G);   // 2, 4, 8 or 16 G!
   
@@ -88,13 +89,15 @@ void setup() {
   Serial.println("Ready");
   Serial.println(digitalPinToInterrupt(BUTTON_PIN_0));
 
-    // Beep!
+  // Beep!
+  /*
   int noteDuration = 1000 / 4;
   tone(BUZZER_PIN, 262, noteDuration);
   int pauseBetweenNotes = noteDuration * 1.30;
   delay(pauseBetweenNotes);
   // stop the tone playing:
   noTone(BUZZER_PIN);
+  */
 }
 
 void loop() {

@@ -2897,7 +2897,7 @@ No silk outline, but tDocu layer shows pin location.
 <part name="USB_CONN" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
 <part name="BAT_CONN" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
 <part name="NEO_PIXELS" library="busy_cube_lib" deviceset="CONN_03" device="LONGPADS"/>
-<part name="R1" library="busy_cube_lib" deviceset="RESISTOR" device="AXIAL-0.3" value=" 500"/>
+<part name="R1" library="busy_cube_lib" deviceset="RESISTOR" device="AXIAL-0.3" value="470"/>
 <part name="GND1" library="busy_cube_lib" deviceset="GND" device=""/>
 <part name="SUPPLY1" library="busy_cube_lib" deviceset="VCC" device=""/>
 <part name="GND2" library="busy_cube_lib" deviceset="GND" device=""/>

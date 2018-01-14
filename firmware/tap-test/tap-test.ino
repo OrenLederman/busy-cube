@@ -10,7 +10,8 @@
 #define LIS3DH_MISO 12
 #define LIS3DH_MOSI 11
 // Used for hardware & software SPI
-#define LIS3DH_CS 11
+const int8_t LIS3DH_CS = 0;
+const int ACCEL_INT_PIN = 1;
 
 // software SPI
 //Adafruit_LIS3DH lis = Adafruit_LIS3DH(LIS3DH_CS, LIS3DH_MOSI, LIS3DH_MISO, LIS3DH_CLK);
@@ -34,7 +35,7 @@ void setup(void) {
   while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
 #endif
   pinMode(0,  INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(0), pin_ISR_0, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(ACCEL_INT_PIN), pin_ISR_0, CHANGE);
   
   Serial.begin(9600);
     Serial.println("Adafruit LIS3DH Tap Test!");
