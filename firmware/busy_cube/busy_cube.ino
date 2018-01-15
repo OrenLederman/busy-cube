@@ -23,7 +23,9 @@ const int NUM_BUTTONS = 3;          // Number of buttons
 int button_pins[] = {BUTTON_PIN_0, BUTTON_PIN_1, BUTTON_PIN_2};
 
 // Neopixel configuration
-const int NEOPIXEL_BRIGHTNESS = 100;
+const int NEOPIXEL_BRIGHTNESS_LOW = 20;
+const int NEOPIXEL_BRIGHTNESS_HIGH = 100;
+int neopixel_brightness = NEOPIXEL_BRIGHTNESS_HIGH;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -34,6 +36,13 @@ const int NEOPIXEL_BRIGHTNESS = 100;
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_BUTTONS, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
+
+// States
+const int STATE_INIT = 0;   // 
+const int STATE_GAME1 = 1;  // Game 1 - pressing the buttons change colors
+const int STATE_SLEEP = 9;  // Sleep. LEDs are off, low power usage stuff
+int state = STATE_INIT;
+unsigned long lastUpdate = 0; // last update of position
 
 void setup() {
   //while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
@@ -47,8 +56,10 @@ void setup() {
   for (int i=0; i < NUM_BUTTONS ;i++) {
     pinMode(button_pins[i],  INPUT_PULLUP);
   }
-
   pinMode(LED_BUILTIN,  OUTPUT);
+
+  // Let pins stabalize (needed?)
+  delay(100);
   
   // Attach an interrupt to the ISR vector
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_0), pin_ISR_0, CHANGE);
@@ -58,36 +69,14 @@ void setup() {
   // Init neopixels
   strip.begin();
   for (int i=0; i < NUM_BUTTONS; i++) {
-      strip.setPixelColor(i, 0);
+     strip.setPixelColor(i, 0);
   }  
   strip.show();
 
   // Acceleromoter settings
-  pinMode(ACCEL_INT_PIN,  INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(ACCEL_INT_PIN), pin_ISR_ACCEL, CHANGE);
-  if (! lis.begin(0x18)) {   // change this to 0x19 for alternative i2c address
-    Serial.println("LIS3DH Couldnt start");
-    //while (1);
-  } else {
-    Serial.println("LIS3DH found!");
-  }
-  
-  lis.setRange(LIS3DH_RANGE_2_G);   // 2, 4, 8 or 16 G!
-  
-  Serial.print("Range = "); Serial.print(2 << lis.getRange());  
-  Serial.println("G");
-
-  // 0 = turn off click detection & interrupt
-  // 1 = single click only interrupt output
-  // 2 = double click only interrupt output, detect single click
-  // Adjust threshhold, higher numbers are less sensitive
-  lis.setClick(2, CLICKTHRESHHOLD);
-
-  // Seem to need a delay here, otherwise, the neopixel gets turned on. Not sure why
-  delay(2000);
-
-  Serial.println("Ready");
-  Serial.println(digitalPinToInterrupt(BUTTON_PIN_0));
+  //pinMode(ACCEL_INT_PIN,  INPUT_PULLUP);
+  //attachInterrupt(digitalPinToInterrupt(ACCEL_INT_PIN), pin_ISR_ACCEL, CHANGE);
+  //accel_init();
 
   // Beep!
   /*
@@ -98,20 +87,28 @@ void setup() {
   // stop the tone playing:
   noTone(BUZZER_PIN);
   */
+
+  //
+  lastUpdate = millis();
 }
 
 void loop() {
-  strip.setBrightness(NEOPIXEL_BRIGHTNESS);
-  for (int i=0; i < NUM_BUTTONS; i++) {
-    if (is_new_press(i)) {
-      Serial.println("button! (in loop)");
-      bump_button_color(i);
-      strip.setPixelColor(i, get_button_color(i));
-    }
-  }  
-  
-  strip.show();
+  switch (state) {
+  case STATE_INIT:
+    state_0_update();
+    break;
+  case STATE_GAME1:
+    state_1_update();
+    break;
+  case STATE_SLEEP:
+    // statements
+    break;
+
+  //default: 
+  }
 }
+
+
 
 // ----------------------------------------------------------- //
 // Colors and color control
@@ -168,6 +165,73 @@ uint32_t Wheel(byte WheelPos) {
   }
   WheelPos -= 170;
   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+}
+
+// ----------------------------------------------------------- //
+// States
+const long STATE_INIT_TIMEOUT_MS = 1000; // how long to stay in init state
+
+/**
+ * This state is the initial state of the toy. It shows that the toy 
+ * is on, and allows to change some settings
+ */
+void state_0_update() {
+  // check to see if it's time to change the state of the LED
+  unsigned long currentMillis = millis();
+
+  //End of state init?
+  if ((currentMillis - lastUpdate) > STATE_INIT_TIMEOUT_MS) {
+    Serial.println("Exiting STATE_INIT");
+    state = STATE_GAME1;
+
+    // Turn off LEDs
+    for (int i=0; i < NUM_BUTTONS; i++) {
+      strip.setPixelColor(i, 0);
+    } 
+    strip.show();
+    
+    lastUpdate = millis();
+    return;
+  }
+
+  // Change brightness if button is pressed
+  if (is_button_pressed(1)) {
+    neopixel_brightness = NEOPIXEL_BRIGHTNESS_LOW;
+  }
+  
+  // Turn on LEDs. Color depends on mode
+  uint32_t c;
+  switch (neopixel_brightness) {
+    case NEOPIXEL_BRIGHTNESS_HIGH:
+      c = strip.Color(255, 0, 0);
+      break;
+    case NEOPIXEL_BRIGHTNESS_LOW:
+      c = strip.Color(0, 255, 0);
+      break;
+  }
+  
+  strip.setBrightness(NEOPIXEL_BRIGHTNESS_LOW);
+  for (int i=0; i < NUM_BUTTONS; i++) {
+    strip.setPixelColor(i, c);
+  } 
+  strip.show();
+
+  // 
+}
+
+/**
+ * This is game mode
+ */
+void state_1_update() {
+  strip.setBrightness(neopixel_brightness);
+  for (int i=0; i < NUM_BUTTONS; i++) {
+    if (is_new_press(i)) {
+      Serial.println("button! (in loop)");
+      bump_button_color(i);
+      strip.setPixelColor(i, get_button_color(i));
+      strip.show();
+    }
+  }
 }
 
 // ----------------------------------------------------------- //
@@ -244,6 +308,27 @@ boolean is_button_pressed(int button_id) {
   } else {
     return false;
   }
+}
+
+// ----------------------------------------------------------- //
+// Accelerometer functions
+void accel_init() {
+  if (! lis.begin(0x18)) {   // change this to 0x19 for alternative i2c address
+    Serial.println("LIS3DH Couldnt start");
+  } else {
+    Serial.println("LIS3DH found!");
+  }
+  
+  lis.setRange(LIS3DH_RANGE_2_G);  
+  
+  Serial.print("Range = "); Serial.print(2 << lis.getRange());  
+  Serial.println("G");
+
+  // 0 = turn off click detection & interrupt
+  // 1 = single click only interrupt output
+  // 2 = double click only interrupt output, detect single click
+  // Adjust threshhold, higher numbers are less sensitive
+  lis.setClick(2, CLICKTHRESHHOLD);
 }
 
 // ----------------------------------------------------------- //
