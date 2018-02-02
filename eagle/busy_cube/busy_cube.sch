@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.3.2">
+<eagle version="8.5.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -2914,6 +2914,7 @@ No silk outline, but tDocu layer shows pin location.
 <part name="R2" library="busy_cube_lib" deviceset="RESISTOR" device="1206" value=" 0"/>
 <part name="R3" library="busy_cube_lib" deviceset="RESISTOR" device="AXIAL-0.3" value="300"/>
 <part name="EXT_SWITCH" library="busy_cube_lib" deviceset="CONN_02" device="-JST-2MM-SMT"/>
+<part name="GND9" library="busy_cube_lib" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -2936,8 +2937,8 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="BAT_CONN" gate="G$1" x="55.88" y="124.46"/>
 <instance part="NEO_PIXELS" gate="J$1" x="124.46" y="30.48" rot="R180"/>
 <instance part="R1" gate="G$1" x="93.98" y="35.56" rot="R90"/>
-<instance part="GND1" gate="1" x="88.9" y="121.92" rot="R270"/>
-<instance part="SUPPLY1" gate="G$1" x="91.44" y="114.3" rot="R90"/>
+<instance part="GND1" gate="1" x="88.9" y="111.76" rot="R270"/>
+<instance part="SUPPLY1" gate="G$1" x="91.44" y="104.14" rot="R90"/>
 <instance part="GND2" gate="1" x="78.74" y="48.26" rot="R90"/>
 <instance part="SUPPLY2" gate="G$1" x="68.58" y="45.72" rot="R270"/>
 <instance part="SUPPLY3" gate="G$1" x="99.06" y="68.58" rot="R270"/>
@@ -2951,7 +2952,8 @@ No silk outline, but tDocu layer shows pin location.
 <instance part="GND8" gate="1" x="7.62" y="73.66" rot="R180"/>
 <instance part="R2" gate="G$1" x="68.58" y="78.74"/>
 <instance part="R3" gate="G$1" x="15.24" y="58.42" rot="R180"/>
-<instance part="EXT_SWITCH" gate="G$1" x="73.66" y="114.3" rot="R90"/>
+<instance part="EXT_SWITCH" gate="G$1" x="55.88" y="109.22"/>
+<instance part="GND9" gate="1" x="71.12" y="114.3" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -2959,7 +2961,7 @@ No silk outline, but tDocu layer shows pin location.
 <net name="GND" class="0">
 <segment>
 <pinref part="POWERBOOST" gate="G$1" pin="SDA"/>
-<wire x1="101.6" y1="121.92" x2="91.44" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="121.92" x2="91.44" y2="111.76" width="0.1524" layer="91"/>
 <pinref part="GND1" gate="1" pin="GND"/>
 </segment>
 <segment>
@@ -3006,11 +3008,16 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="7.62" y1="68.58" x2="7.62" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="GND8" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="EXT_SWITCH" gate="G$1" pin="2"/>
+<pinref part="GND9" gate="1" pin="GND"/>
+<wire x1="63.5" y1="111.76" x2="71.12" y2="111.76" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="VCC" class="0">
 <segment>
 <pinref part="POWERBOOST" gate="G$1" pin="INT"/>
-<wire x1="101.6" y1="114.3" x2="91.44" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="101.6" y1="114.3" x2="91.44" y2="104.14" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
@@ -3054,10 +3061,9 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="81.28" y1="124.46" x2="81.28" y2="129.54" width="0.1524" layer="91"/>
 <pinref part="POWERBOOST" gate="G$1" pin="3VO"/>
 <wire x1="81.28" y1="129.54" x2="101.6" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="EXT_SWITCH" gate="G$1" pin="1"/>
-<wire x1="73.66" y1="121.92" x2="73.66" y2="124.46" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="124.46" x2="81.28" y2="124.46" width="0.1524" layer="91"/>
 <label x="78.74" y="129.54" size="1.778" layer="95"/>
+<pinref part="BAT_CONN" gate="G$1" pin="1"/>
+<wire x1="81.28" y1="124.46" x2="63.5" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="NEO_RES" class="0">
@@ -3156,20 +3162,21 @@ No silk outline, but tDocu layer shows pin location.
 <wire x1="10.16" y1="58.42" x2="7.62" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$10" class="0">
-<segment>
-<pinref part="BAT_CONN" gate="G$1" pin="1"/>
-<wire x1="63.5" y1="124.46" x2="71.12" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="EXT_SWITCH" gate="G$1" pin="2"/>
-<wire x1="71.12" y1="124.46" x2="71.12" y2="121.92" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$11" class="0">
 <segment>
 <pinref part="S0" gate="G$1" pin="P"/>
 <wire x1="20.32" y1="86.36" x2="20.32" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="G$1" pin="7"/>
 <wire x1="20.32" y1="63.5" x2="33.02" y2="63.5" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$10" class="0">
+<segment>
+<pinref part="POWERBOOST" gate="G$1" pin="SCL"/>
+<wire x1="101.6" y1="124.46" x2="83.82" y2="124.46" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="124.46" x2="83.82" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="EXT_SWITCH" gate="G$1" pin="1"/>
+<wire x1="63.5" y1="109.22" x2="83.82" y2="109.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
