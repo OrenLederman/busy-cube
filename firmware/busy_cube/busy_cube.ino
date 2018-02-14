@@ -45,7 +45,7 @@ int state = STATE_INIT;
 unsigned long lastUpdate = 0; // last update for timing
 
 const long STATE_INIT_TIMEOUT_MS = 1000; // how long to stay in init state
-const long INACTIVITY_THRESHOLD_MS = 1000 * 60; // how long before going to sleep
+const long INACTIVITY_THRESHOLD_MS = 1000 * 30; // how long before going to sleep
 
 void setup() {
   //while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
