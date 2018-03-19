@@ -525,8 +525,8 @@
 </package>
 <package name="ARCADE-BTN-30MM">
 <circle x="0" y="0" radius="16.94941875" width="0.127" layer="21"/>
-<pad name="T" x="-4.234784375" y="2.44093125" drill="3.0734"/>
-<pad name="P" x="4.2238125" y="2.44093125" drill="3.0734"/>
+<pad name="T" x="-4.234784375" y="2.44093125" drill="3.175" diameter="5.842"/>
+<pad name="P" x="4.2238125" y="2.44093125" drill="3.175" diameter="5.842"/>
 <text x="-5.842" y="6.604" size="1.27" layer="25" font="vector">&gt;NAME</text>
 <wire x1="6.323859375" y1="-5.8264" x2="-6.326190625" y2="-5.8264" width="0.127" layer="21"/>
 <wire x1="-6.326190625" y1="-5.8264" x2="-6.326190625" y2="5.823540625" width="0.127" layer="21"/>
