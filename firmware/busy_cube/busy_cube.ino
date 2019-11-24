@@ -62,7 +62,9 @@ void setup() {
   pinMode(LED_BUILTIN,  OUTPUT);
 
   // Let pins stabalize (needed?)
-  delay(100);
+  //digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+  //digitalWrite(LED_BUILTIN, LOW);
 
   // Attach an interrupt to the ISR vector
   attachInterrupt(digitalPinToInterrupt(BUTTON_PIN_0), pin_ISR_0, CHANGE);
